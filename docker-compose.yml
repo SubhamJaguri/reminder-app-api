@@ -1,0 +1,47 @@
+version: '3'
+networks:
+  radiusbuy-network:
+
+services:
+  radiusbuy:
+    container_name: radiusbuy
+    restart: always
+    build: .
+    ports:
+      - '4000:4000'
+    volumes: ['./:/usr/src/app']
+    external_links:
+      - radiusbuy-db
+    depends_on:
+      - radiusbuy-db
+  radiusbuy-db:
+    image: mysql:5.7.29
+    container_name: radiusbuy-db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - 5000:3306
+    environment:
+      MYSQL_DATABASE: homestead
+      MYSQL_USER: homestead
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: secret
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ./mysql:/var/lib/mysql
+    networks:
+      - radiusbuy-network
+
+  phpmyadmin:
+    depends_on:
+      - radiusbuy-db
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - '6000:80'
+    environment:
+      PMA_HOST: radiusbuy-db
+      MYSQL_ROOT_PASSWORD: secret
+    networks:
+      - radiusbuy-network
