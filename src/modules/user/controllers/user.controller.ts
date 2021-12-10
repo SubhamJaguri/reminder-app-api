@@ -28,6 +28,8 @@ const register = asyncHandler(async (req: Request, res: Response) => {
 
   await user.save();
 
+  user.status = 'success';
+
   if (user) {
     res.status(201).json(user);
   } else {
@@ -57,6 +59,7 @@ const login = asyncHandler(async (req: Request, res: Response) => {
 
   sendRefreshToken(res, createRefreshToken(user));
   res.json({
+    status: 'success',
     accessToken: createAccessToken(user),
     user: user,
   });
