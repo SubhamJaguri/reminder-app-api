@@ -9,12 +9,14 @@ import {
 const addReminder = asyncHandler(async (req: Request, res: Response) => {
   const { title, description, date_time } = req.body;
 
-  const reminder = await createReminder({
+  let reminder = await createReminder({
     title,
     description,
     userId: req.userId,
     date_time,
   });
+
+  reminder.status = 'success';
 
   if (reminder) {
     res.status(201).json(reminder);
