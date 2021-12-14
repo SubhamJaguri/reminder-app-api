@@ -25,3 +25,8 @@ export const updateReminder = async (id: string, newValues: any) => {
   const reminder = await Reminder.update(id, newValues);
   return reminder;
 };
+
+export const deleteReminder = async (id: string) => {
+  const reminder = await Reminder.delete(id);
+  return reminder;
+};

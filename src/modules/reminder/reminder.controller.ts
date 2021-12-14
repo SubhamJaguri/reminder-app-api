@@ -4,6 +4,8 @@ import {
   createReminder,
   getRemindersByUserId,
   getReminderById,
+  updateReminder,
+  deleteReminder,
 } from './reminder.repository';
 
 const addReminder = asyncHandler(async (req: Request, res: Response) => {
@@ -37,4 +39,45 @@ const getReminder = asyncHandler(async (req: Request, res: Response) => {
   const reminder = await getReminderById(req.userId);
   res.status(201).json(reminder);
 });
-export { addReminder, getAllRemindersForUser, getReminder };
+
+const updateReminderHandler = asyncHandler(
+  async (req: Request, res: Response) => {
+    const reminder_id = req.params.id;
+
+    let reminder: any = await updateReminder(reminder_id, req.body);
+
+    reminder.status = 'success';
+
+    if (reminder) {
+      res.status(201).json(reminder);
+    } else {
+      res.status(400);
+      throw new Error('Invalid reminder data');
+    }
+  }
+);
+
+const deleteReminderHandler = asyncHandler(
+  async (req: Request, res: Response) => {
+    const reminder_id = req.params.id;
+
+    let reminder: any = await deleteReminder(reminder_id);
+
+    reminder.status = 'success';
+
+    if (reminder) {
+      res.status(201).json(reminder);
+    } else {
+      res.status(400);
+      throw new Error('error');
+    }
+  }
+);
+
+export {
+  addReminder,
+  getAllRemindersForUser,
+  getReminder,
+  updateReminderHandler,
+  deleteReminderHandler,
+};
