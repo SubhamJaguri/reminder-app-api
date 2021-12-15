@@ -39,7 +39,7 @@ const register = asyncHandler(async (req: Request, res: Response) => {
 });
 
 const login = asyncHandler(async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  const { email, password, device_token } = req.body;
 
   const user = await User.findOne({ where: { email } });
 
@@ -51,6 +51,8 @@ const login = asyncHandler(async (req: Request, res: Response) => {
   const valid = await compare(password, user.password);
 
   // update  user device_token in table
+  user.deviceToken = device_token;
+  await user.save();
 
   if (!valid) {
     res.status(401);
