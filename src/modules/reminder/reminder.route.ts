@@ -13,7 +13,7 @@ const router = express.Router();
 router.get('/my-reminders', isAuth, getAllRemindersForUser);
 router.post('/', isAuth, addReminder);
 router.get('/:id', getReminder);
-router.put('/:id', updateReminderHandler);
-router.delete('/:id', deleteReminderHandler);
+router.post('/update/:id', updateReminderHandler);
+router.get('/delete/:id', deleteReminderHandler);
 
 export default router;
