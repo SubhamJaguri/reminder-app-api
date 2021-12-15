@@ -50,6 +50,8 @@ const login = asyncHandler(async (req: Request, res: Response) => {
 
   const valid = await compare(password, user.password);
 
+  // update  user device_token in table
+
   if (!valid) {
     res.status(401);
     throw new Error('Invalid email or password');

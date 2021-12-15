@@ -15,6 +15,9 @@ export class User extends Model {
   @Column('int', { default: 0 })
   tokenVersion: number;
 
+  @Column('text')
+  deviceToken: string;
+
   toJSON() {
     return { ...this, password: undefined, tokenVersion: undefined };
   }
