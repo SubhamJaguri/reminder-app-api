@@ -25,6 +25,7 @@ const register = asyncHandler(async (req: Request, res: Response) => {
   user.email = email;
   user.name = name;
   user.password = hashedPassword;
+  user.deviceToken = 'not-set';
 
   await user.save();
 
