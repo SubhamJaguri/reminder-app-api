@@ -7,7 +7,7 @@ import 'colors';
 import { createConnection } from 'typeorm';
 import express from 'express';
 import morgan from 'morgan';
-
+import * as schedule from 'node-schedule';
 import {
   errorHandler,
   notFound,
@@ -51,6 +51,10 @@ import reminderRoutes from './modules/reminder/reminder.route';
   /* Custom Middlewares */
   app.use(notFound);
   app.use(errorHandler);
+
+  schedule.scheduleJob('*/5 * * * * *', function () {
+    console.log('The answer to life, the universe, and everything!');
+  });
 
   /* Server */
   const PORT = process.env.PORT || 4000;
